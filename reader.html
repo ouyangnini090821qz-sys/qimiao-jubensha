@@ -1861,6 +1861,7 @@ function commentBox() {
 
 /* 初始化 */
 document.addEventListener("DOMContentLoaded", () => {
+
   reader = document.getElementById("reader");
   fontMenu = document.getElementById("fontMenu");
   const backBtn = document.getElementById("backBtn");
@@ -1874,8 +1875,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   /* 保存阅读进度 */
   let timer;
+
   reader.addEventListener("scroll", () => {
     clearTimeout(timer);
+
     timer = setTimeout(() => {
       safeSet(`scroll_${currentChapter}`, reader.scrollTop);
     }, 300);
@@ -1896,7 +1899,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const moveX = endX - startX;
     const moveY = endY - startY;
 
-    /* 必须横向滑动 */
     if (
       Math.abs(moveX) < 100 ||
       Math.abs(moveX) < Math.abs(moveY) * 1.5
@@ -1904,7 +1906,6 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    /* 防止连续翻页 */
     if (
       pageLock ||
       Math.abs(moveX) > window.innerWidth * 0.9
@@ -1931,13 +1932,16 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }, { passive: true });
 
-  /* 返回 */
-if (backBtn) {
-  backBtn.onclick = () => {
-    location.href = "chapter-list.html";
-  };
-}
+  /* 返回按钮 */
+  if (backBtn) {
+    backBtn.onclick = () => {
+      location.href = "chapter-list.html";
+    };
+  }
+
+});
 </script>
 
 </body>
+
 </html>
