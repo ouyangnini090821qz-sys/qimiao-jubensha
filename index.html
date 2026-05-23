@@ -3,10 +3,10 @@
 <head>
 
 <meta charset="UTF-8">
+
 <meta
 name="viewport"
 content="width=device-width,initial-scale=1,viewport-fit=cover">
-
 
 <title>奇妙剧本杀</title>
 
@@ -16,6 +16,7 @@ content="width=device-width,initial-scale=1,viewport-fit=cover">
 margin:0;
 padding:0;
 box-sizing:border-box;
+-webkit-tap-highlight-color:transparent;
 }
 
 html{
@@ -24,7 +25,6 @@ min-height:100%;
 }
 
 body{
-
 font-family:
 "PingFang SC",
 sans-serif;
@@ -45,40 +45,29 @@ background-size:cover;
 background-position:center;
 background-repeat:no-repeat;
 
-
 overflow-x:hidden;
+overflow-y:auto;
 
 position:relative;
-
 }
-
 
 /* 暗角 */
 
 body::before{
-
 content:"";
-
 position:fixed;
-
 inset:0;
-
-background:
-rgba(0,0,0,.25);
-
+background:rgba(0,0,0,.25);
 pointer-events:none;
-
+z-index:1;
 }
-
 
 /* 音乐按钮 */
 
 .music-btn{
-
 position:fixed;
 
 top:calc(20px + env(safe-area-inset-top));
-
 right:calc(20px + env(safe-area-inset-right));
 
 width:65px;
@@ -87,15 +76,13 @@ height:65px;
 border-radius:50%;
 
 border:
-
-1px solid
-rgba(255,255,255,.2);
+1px solid rgba(255,255,255,.2);
 
 background:
 rgba(130,90,180,.18);
 
-backdrop-filter:
-blur(20px);
+backdrop-filter:blur(20px);
+-webkit-backdrop-filter:blur(20px);
 
 color:white;
 
@@ -106,88 +93,48 @@ cursor:pointer;
 z-index:100;
 
 box-shadow:
-
-0 0 30px
-rgba(190,150,255,.3);
+0 0 30px rgba(190,150,255,.3);
 
 transition:.3s;
-
 }
 
 .music-btn:active{
-
-transform:
-scale(.92);
-
+transform:scale(.92);
 }
-
 
 /* 主玻璃框 */
 
 .card{
-
 position:relative;
 
-width:
-
-min(
-92vw,
-470px
-);
+width:min(92vw,470px);
 
 padding:
-
 35px
 25px;
 
-border-radius:
-
-38px;
+border-radius:38px;
 
 background:
+rgba(120,90,150,0.18);
 
-rgba(
-120,
-90,
-150,
-0.18
-);
-
-backdrop-filter:
-
-blur(25px);
+backdrop-filter:blur(25px);
+-webkit-backdrop-filter:blur(25px);
 
 border:
-
-1px solid
-rgba(
-255,
-255,
-255,
-0.25
-);
+1px solid rgba(255,255,255,0.25);
 
 box-shadow:
-
-0 0 50px
-rgba(
-190,
-150,
-255,
-0.2
-);
+0 0 50px rgba(190,150,255,0.2);
 
 overflow:hidden;
 
 z-index:2;
-
 }
-
 
 /* 动态玻璃光 */
 
 .card::before{
-
 content:"";
 
 position:absolute;
@@ -197,55 +144,34 @@ inset:-2px;
 border-radius:40px;
 
 background:
-
 linear-gradient(
-
 45deg,
-
 transparent,
-
-rgba(
-255,
-255,
-255,
-.12
-),
-
+rgba(255,255,255,.12),
 transparent
-
 );
 
 pointer-events:none;
 
 opacity:.5;
-
 }
 
-
 .top{
-
 text-align:center;
 color:white;
-
 margin-bottom:30px;
-
 }
 
 .top small{
-
 font-size:15px;
 opacity:.8;
-
 letter-spacing:2px;
-
 }
 
 .top h1{
-
 margin-top:18px;
 
 font-size:
-
 clamp(
 40px,
 7vw,
@@ -255,47 +181,29 @@ clamp(
 font-weight:500;
 
 text-shadow:
-
-0 0 30px
-rgba(
-255,
-220,
-255,
-.7
-);
-
+0 0 30px rgba(255,220,255,.7);
 }
 
 .top p{
-
 margin-top:18px;
-
 opacity:.8;
-
 font-size:15px;
-
 }
-
 
 /* 按钮 */
 
 .menu{
-
 display:flex;
 flex-direction:column;
 gap:18px;
-
 }
 
-
 .btn{
-
 height:88px;
 
 border-radius:25px;
 
 display:flex;
-
 align-items:center;
 
 padding:20px;
@@ -303,130 +211,65 @@ padding:20px;
 text-decoration:none;
 
 background:
-
-rgba(
-170,
-130,
-220,
-0.18
-);
+rgba(170,130,220,0.18);
 
 border:
+1px solid rgba(255,255,255,0.2);
 
-1px solid
-rgba(
-255,
-255,
-255,
-0.2
-);
-
-backdrop-filter:
-blur(20px);
+backdrop-filter:blur(20px);
+-webkit-backdrop-filter:blur(20px);
 
 color:white;
 
 transition:
-
 transform .35s,
 background .35s;
 
 box-shadow:
-
-0 0 30px
-rgba(
-190,
-150,
-255,
-0.15
-);
+0 0 30px rgba(190,150,255,0.15);
 
 cursor:pointer;
-
 }
-
-
-.btn:hover{
-
-transform:
-scale(
-1.02
-);
-
-}
-
 
 .btn:active{
-
-transform:
-scale(.95);
+transform:scale(.95);
 
 background:
-
-rgba(
-200,
-160,
-255,
-0.25
-);
-
+rgba(200,160,255,0.25);
 }
-
 
 .icon{
-
 font-size:28px;
-
 width:60px;
-
 }
-
 
 .btn-title{
-
 font-size:30px;
 font-weight:500;
-
 }
-
 
 .btn-sub{
-
 font-size:13px;
-
 opacity:.7;
-
 margin-top:5px;
-
 }
 
-
 .footer{
-
 margin-top:25px;
-
 text-align:center;
-
 color:white;
-
 opacity:.7;
-
 font-size:12px;
-
 }
 
 /* 底部功能按钮：评论 收藏 地图 */
 
 .bottom-actions{
-
 position:relative;
 
 z-index:3;
 
-width:min(
-92vw,
-760px
-);
+width:min(92vw,760px);
 
 margin-top:34px;
 
@@ -435,12 +278,9 @@ justify-content:center;
 align-items:center;
 
 gap:28px;
-
 }
 
-
 .action-btn{
-
 width:170px;
 height:62px;
 
@@ -458,20 +298,11 @@ letter-spacing:4px;
 
 color:white;
 
-backdrop-filter:
-blur(22px);
-
--webkit-backdrop-filter:
-blur(22px);
+backdrop-filter:blur(22px);
+-webkit-backdrop-filter:blur(22px);
 
 border:
-1px solid
-rgba(
-255,
-255,
-255,
-.35
-);
+1px solid rgba(255,255,255,.35);
 
 box-shadow:
 inset 0 1px 0 rgba(255,255,255,.25),
@@ -485,52 +316,31 @@ transition:
 transform .25s,
 box-shadow .25s,
 background .25s;
-
 }
-
 
 .action-btn::before{
-
 content:"✦";
-
 position:absolute;
-
 left:16px;
-
 font-size:16px;
-
 opacity:.85;
-
 }
-
 
 .action-btn::after{
-
 content:"✦";
-
 position:absolute;
-
 right:16px;
-
 font-size:16px;
-
 opacity:.85;
-
 }
-
 
 .action-btn:active{
-
-transform:
-scale(.94);
-
+transform:scale(.94);
 }
-
 
 /* 评论：磨砂玻璃浅蓝色 */
 
 .action-comment{
-
 background:
 linear-gradient(
 180deg,
@@ -541,14 +351,11 @@ rgba(110,135,220,.20)
 box-shadow:
 0 0 22px rgba(155,185,255,.55),
 inset 0 0 18px rgba(255,255,255,.14);
-
 }
-
 
 /* 收藏：橘色 */
 
 .action-favorite{
-
 background:
 linear-gradient(
 180deg,
@@ -559,14 +366,11 @@ rgba(210,103,28,.24)
 box-shadow:
 0 0 24px rgba(255,147,55,.65),
 inset 0 0 18px rgba(255,255,255,.14);
-
 }
-
 
 /* 地图：浅青色 */
 
 .action-map{
-
 background:
 linear-gradient(
 180deg,
@@ -577,12 +381,11 @@ rgba(68,165,180,.22)
 box-shadow:
 0 0 24px rgba(125,230,240,.60),
 inset 0 0 18px rgba(255,255,255,.14);
-
 }
+
 /* 加载 */
 
 .loading{
-
 position:fixed;
 
 inset:0;
@@ -601,95 +404,66 @@ color:white;
 z-index:9999;
 
 font-size:18px;
-
 }
-
 
 .loading.show{
-
 display:flex;
-
 }
 
-
 .loader{
-
 margin-top:20px;
 
 width:40px;
 height:40px;
 
 border:
-
-3px solid
-rgba(
-255,
-255,
-255,
-.2
-);
+3px solid rgba(255,255,255,.2);
 
 border-top:
-
-3px solid
-white;
+3px solid white;
 
 border-radius:50%;
 
 animation:
-
 spin 1s linear infinite;
-
 }
-
 
 @keyframes spin{
-
 100%{
-
-transform:
-rotate(
-360deg
-);
-
+transform:rotate(360deg);
 }
-
 }
-
 
 /* 手机 */
+
 @media(max-width:500px){
 
+body{
+padding:
+calc(20px + env(safe-area-inset-top))
+14px
+calc(20px + env(safe-area-inset-bottom));
+}
+
 .btn{
-
 height:76px;
-
 }
 
 .btn-title{
-
 font-size:22px;
-
 }
 
 .top h1{
-
 font-size:48px;
-
 }
 
 .bottom-actions{
-
 width:100%;
-
 gap:10px;
-
 margin-top:26px;
-
 }
 
 .action-btn{
-
 width:31%;
 height:52px;
 
@@ -697,14 +471,11 @@ font-size:20px;
 letter-spacing:2px;
 
 border-radius:18px;
-
 }
 
 .action-btn::before,
 .action-btn::after{
-
 font-size:12px;
-
 }
 
 }
@@ -715,127 +486,96 @@ font-size:12px;
 
 <body>
 
-
 <button
+type="button"
 class="music-btn"
 id="music">
-
 🎵
-
 </button>
-
 
 <div class="card">
 
 <div class="top">
 
 <small>
-
 欢迎来到我的世界
-
 </small>
 
 <h1>
-
 奇妙剧本杀
-
 </h1>
 
 <p>
-
 在文字里，遇见另一个世界。
-
 </p>
 
 </div>
 
-
 <div class="menu">
 
-
 <a
-href="javascript:void(0)"
+href="novel-cover.html"
 class="btn"
-onclick="goPage('novel-cover.html')">
+onclick="goPage(event,'novel-cover.html')">
 
 <div class="icon">
-
 📖
-
 </div>
 
 <div>
 
 <div class="btn-title">
-
 奇妙剧本杀
-
 </div>
 
 <div class="btn-sub">
-
 我的小说连载
-
 </div>
 
 </div>
 
 </a>
 
-
 <a
-href="javascript:void(0)"
+href="role.html"
 class="btn"
-onclick="goPage('role.html')">
+onclick="goPage(event,'role.html')">
 
 <div class="icon">
-
 👤
-
 </div>
 
 <div>
 
 <div class="btn-title">
-
 角色介绍
-
 </div>
 
 <div class="btn-sub">
-
 人物档案与故事
-
 </div>
 
 </div>
 
 </a>
-
 
 <a
-href="javascript:void(0)"
+href="about.html"
 class="btn"
-onclick="goPage('about.html')">
+onclick="goPage(event,'about.html')">
 
 <div class="icon">
-
 ✨
-
 </div>
 
 <div>
 
 <div class="btn-title">
-
 关于我
-
 </div>
 
 <div class="btn-sub">
-
 雾里茄影
-
 </div>
 
 </div>
@@ -843,12 +583,9 @@ onclick="goPage('about.html')">
 </a>
 
 </div>
-
 
 <div class="footer">
-
 建议开启背景音乐 🎵
-
 </div>
 
 </div>
@@ -856,49 +593,45 @@ onclick="goPage('about.html')">
 <div class="bottom-actions">
 
 <a
-href="javascript:void(0)"
+href="comments.html"
 class="action-btn action-comment"
-onclick="goPage('comments.html')">
+onclick="goPage(event,'comments.html')">
 评论
 </a>
 
 <a
-href="javascript:void(0)"
+href="favorite.html"
 class="action-btn action-favorite"
-onclick="goPage('favorite.html')">
+onclick="goPage(event,'favorite.html')">
 收藏
 </a>
 
 <a
-href="javascript:void(0)"
+href="world-map.html"
 class="action-btn action-map"
-onclick="goPage('world-map.html')">
+onclick="goPage(event,'world-map.html')">
 地图
 </a>
 
 </div>
+
 <div
 class="loading"
 id="loading">
 
 <div>
-
 读取档案中...
-
 </div>
 
-<div
-class="loader">
-
+<div class="loader">
 </div>
 
 </div>
-
 
 <audio
 id="bgm"
 loop
-preload="auto">
+preload="none">
 
 <source
 src="https://files.catbox.moe/3foqyn.mp3"
@@ -906,64 +639,67 @@ type="audio/mpeg">
 
 </audio>
 
-
 <script>
 
-const music=
-document.getElementById(
-"music"
-);
+const music =
+document.getElementById("music");
 
-const bgm=
-document.getElementById(
-"bgm"
-);
+const bgm =
+document.getElementById("bgm");
 
+const loading =
+document.getElementById("loading");
 
-const savedMusic=
+let loadingLock = false;
 
-localStorage.getItem(
-"music"
-);
+const savedMusic =
+localStorage.getItem("music");
 
+let playing =
+savedMusic === "on";
 
-let playing=
-
-savedMusic==="on";
-
-
+/* 回到首页时，先不要强行自动播放，避免手机浏览器卡住 */
 if(playing){
-
-music.innerHTML=
-"🔊";
-
-bgm.play().catch(()=>{});
-
+music.innerHTML = "🔊";
 }
 
+/* 音乐按钮 */
 
-music.onclick=()=>{
+music.onclick = ()=>{
 
 if(!playing){
 
-bgm.play().catch(()=>{});
+bgm.play().then(()=>{
 
-playing=true;
+playing = true;
 
-music.innerHTML="🔊";
+music.innerHTML = "🔊";
 
 localStorage.setItem(
 "music",
 "on"
 );
 
+}).catch(()=>{
+
+playing = false;
+
+music.innerHTML = "🎵";
+
+localStorage.setItem(
+"music",
+"off"
+);
+
+});
+
 }else{
 
 bgm.pause();
 
-playing=false;
+playing = false;
 
-music.innerHTML="🎵";
+music.innerHTML = "🎵";
 
 localStorage.setItem(
 "music",
@@ -974,39 +710,88 @@ localStorage.setItem(
 
 };
 
+/* 强制关闭加载层 */
 
-/* 防连续点击 */
+function hideLoading(){
 
-let loadingLock=false;
+loadingLock = false;
 
+if(loading){
 
-function goPage(url){
-
-if(
-loadingLock
-)return;
-
-
-loadingLock=true;
-
-
-document
-.getElementById(
-"loading"
-)
-.classList
-.add(
-"show"
-);
-
-
-setTimeout(()=>{
-
-window.location=url;
-
-},800);
+loading.classList.remove("show");
 
 }
+
+}
+
+/* 进入页面、返回页面、Safari 恢复页面时都关闭 loading */
+
+window.addEventListener(
+"pageshow",
+hideLoading
+);
+
+document.addEventListener(
+"DOMContentLoaded",
+hideLoading
+);
+
+window.addEventListener(
+"focus",
+hideLoading
+);
+
+document.addEventListener(
+"visibilitychange",
+()=>{
+
+if(!document.hidden){
+
+hideLoading();
+
+}
+
+}
+);
+
+/* 跳转页面 */
+
+function goPage(event,url){
+
+if(event){
+
+event.preventDefault();
+
+}
+
+if(loadingLock){
+
+return;
+
+}
+
+loadingLock = true;
+
+if(loading){
+
+loading.classList.add("show");
+
+}
+
+/* 不要等太久，不然体验会像卡住 */
+setTimeout(()=>{
+
+window.location.href = url;
+
+},120);
+
+}
+
+/* 最后保险：不管怎样，首页最多 2 秒自动关 loading */
+setTimeout(
+hideLoading,
+2000
+);
 
 </script>
 

@@ -1932,16 +1932,11 @@ document.addEventListener("DOMContentLoaded", () => {
   }, { passive: true });
 
   /* 返回 */
-  if (backBtn) {
-    backBtn.onclick = () => {
-      if (history.length > 1) {
-        history.back();
-      } else {
-        location.href = "chapter-list.html";
-      }
-    };
-  }
-});
+if (backBtn) {
+  backBtn.onclick = () => {
+    location.href = "chapter-list.html";
+  };
+}
 </script>
 
 </body>
