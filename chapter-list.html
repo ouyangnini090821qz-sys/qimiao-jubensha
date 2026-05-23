@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+<meta charset="UTF-8">
+
+<meta
+name="viewport"
+content="width=device-width,initial-scale=1,viewport-fit=cover">
+
+<title>章节目录</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+-webkit-tap-highlight-color:transparent;
+}
+
+body{
+min-height:100dvh;
+
+font-family:
+"PingFang SC",
+sans-serif;
+
+color:#fff;
+
+background:
+radial-gradient(
+circle at top,
+rgba(140,100,255,.15),
+transparent 35%
+),
+linear-gradient(
+180deg,
+#0d0b14 0%,
+#151022 55%,
+#090810 100%
+);
+
+padding:
+calc(20px + env(safe-area-inset-top))
+16px
+calc(30px + env(safe-area-inset-bottom));
+
+overflow-x:hidden;
+}
+
+/* 返回按钮 */
+
+.back{
+position:fixed;
+
+top:
+calc(16px + env(safe-area-inset-top));
+
+left:
+calc(16px + env(safe-area-inset-left));
+
+width:52px;
+height:52px;
+
+border-radius:50%;
+
+display:flex;
+justify-content:center;
+align-items:center;
+
+font-size:28px;
+color:white;
+
+background:
+rgba(255,255,255,.08);
+
+border:
+1px solid rgba(255,255,255,.15);
+
+backdrop-filter:
+blur(20px);
+
+-webkit-backdrop-filter:
+blur(20px);
+
+cursor:pointer;
+
+z-index:999;
+user-select:none;
+}
+
+.back:active{
+transform:scale(.95);
+}
+
+/* 页面主体 */
+
+.shell{
+width:min(100%,850px);
+margin:auto;
+padding-top:80px;
+}
+
+.title{
+font-size:30px;
+font-weight:700;
+margin-bottom:25px;
+text-align:center;
+}
+
+/* 章节卡片 */
+
+.chapter{
+position:relative;
+
+padding:18px;
+
+margin-bottom:14px;
+
+border-radius:18px;
+
+background:
+rgba(255,255,255,.05);
+
+border:
+1px solid rgba(255,255,255,.1);
+
+cursor:pointer;
+
+transition:.25s;
+
+backdrop-filter:
+blur(16px);
+
+-webkit-backdrop-filter:
+blur(16px);
+}
+
+.chapter:active{
+transform:scale(.98);
+}
+
+/* 最近阅读 */
+
+.lastRead{
+border:
+1px solid rgba(168,108,255,.8);
+
+box-shadow:
+0 0 20px rgba(168,108,255,.3);
+}
+
+.badge{
+position:absolute;
+
+right:14px;
+top:50%;
+
+transform:
+translateY(-50%);
+
+padding:
+4px 10px;
+
+font-size:12px;
+
+border-radius:999px;
+
+background:
+rgba(168,108,255,.9);
+
+white-space:nowrap;
+}
+
+/* 手机 */
+
+@media(max-width:520px){
+
+.title{
+font-size:26px;
+}
+
+.chapter{
+padding:16px;
+padding-right:96px;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div
+class="back"
+id="backBtn">
+←
+</div>
+
+<div class="shell">
+
+<div class="title">
+章节目录
+</div>
+
+<div
+id="chapterList">
+</div>
+
+</div>
+
+<script>
+
+/* 小说章节 */
+
+const chapters = [
+"🌞 第一章 卫生间的记忆",
+"🏫 第二章 圣约校院",
+"💃 第三章 舞蹈室",
+"🌕 第四章 墙壁上的字",
+"🌙 第五章 106储藏室",
+"☕️ 第六章 好梦咖啡馆",
+"🖼️ 第七章 墙壁上的画",
+"📖 第八章 穿越？",
+"👥 第九章 抽屉里的照片",
+"✨ 第十章 老乞丐",
+"🚪 第十一章 地下室"
+];
+
+/* 最近阅读 */
+
+let lastChapter =
+parseInt(
+localStorage.getItem("chapter"),
+10
+);
+
+if(
+isNaN(lastChapter)
+||
+lastChapter < 1
+){
+lastChapter = 1;
+}
+
+if(
+lastChapter > chapters.length
+){
+lastChapter = chapters.length;
+}
+
+/* 获取列表 */
+
+const list =
+document.getElementById("chapterList");
+
+/* 清空旧内容 */
+
+list.innerHTML = "";
+
+/* 创建章节 */
+
+for(
+let i = 0;
+i < chapters.length;
+i++
+){
+
+const chapter =
+document.createElement("div");
+
+chapter.className =
+"chapter";
+
+chapter.textContent =
+chapters[i];
+
+/* 最近阅读 */
+
+if(
+i + 1 === lastChapter
+){
+
+chapter.classList.add("lastRead");
+
+const badge =
+document.createElement("span");
+
+badge.className =
+"badge";
+
+badge.textContent =
+"最近阅读";
+
+chapter.appendChild(badge);
+
+}
+
+/* 点击进入阅读器 */
+
+chapter.onclick = ()=>{
+
+localStorage.setItem(
+"chapter",
+i + 1
+);
+
+location.href =
+"reader.html";
+
+};
+
+list.appendChild(chapter);
+
+}
+
+/* 返回 */
+
+document
+.getElementById("backBtn")
+.onclick = ()=>{
+
+if(
+history.length > 1
+){
+
+history.back();
+
+}
+else{
+
+location.href =
+"novel-cover.html";
+
+}
+
+};
+
+</script>
+
+</body>
+</html>

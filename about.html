@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>关于我</title>
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+-webkit-tap-highlight-color:transparent;
+}
+
+html,body{
+width:100%;
+min-height:100%;
+}
+
+body{
+min-height:100dvh;
+display:flex;
+justify-content:center;
+align-items:center;
+padding:20px;
+overflow-x:hidden;
+overflow-y:auto;
+font-family:"PingFang SC",sans-serif;
+background:
+radial-gradient(circle at top, rgba(120,90,180,.26), transparent 38%),
+linear-gradient(180deg, #07070d 0%, #0d0d15 55%, #080810 100%);
+position:relative;
+}
+
+/* 返回按钮 */
+.back{
+position:fixed;
+top:calc(20px + env(safe-area-inset-top));
+left:calc(20px + env(safe-area-inset-left));
+width:56px;
+height:56px;
+border-radius:50%;
+display:flex;
+justify-content:center;
+align-items:center;
+font-size:28px;
+color:white;
+cursor:pointer;
+z-index:999;
+background:rgba(150,100,255,.16);
+backdrop-filter:blur(18px);
+-webkit-backdrop-filter:blur(18px);
+border:1px solid rgba(255,255,255,.18);
+box-shadow:0 0 24px rgba(180,150,255,.35);
+transition:.25s;
+user-select:none;
+}
+
+.back:active{
+transform:scale(.94);
+}
+
+/* 主区域 */
+.page{
+width:min(95vw, 900px);
+position:relative;
+padding-bottom:40px;
+}
+
+/* 外层 LED 边框 */
+.about{
+position:relative;
+width:100%;
+padding:4px;
+border-radius:36px;
+background:
+linear-gradient(
+90deg,
+#7d4bff,
+#ff7fd7,
+#6bc6ff,
+#a96bff,
+#7d4bff
+);
+background-size:300% 300%;
+animation:ledMove 5s linear infinite;
+box-shadow:
+0 0 20px rgba(125,75,255,.55),
+0 0 50px rgba(125,75,255,.35),
+0 0 90px rgba(125,75,255,.18);
+overflow:hidden;
+z-index:2;
+}
+
+/* 内层玻璃底 */
+.about::before{
+content:"";
+position:absolute;
+inset:4px;
+border-radius:32px;
+background:
+linear-gradient(180deg, rgba(20,18,30,.72), rgba(10,10,18,.86));
+backdrop-filter:blur(24px);
+-webkit-backdrop-filter:blur(24px);
+z-index:1;
+}
+
+/* 流动高光 */
+.about::after{
+content:"";
+position:absolute;
+inset:-30%;
+background:linear-gradient(
+120deg,
+transparent 38%,
+rgba(255,255,255,.18) 48%,
+transparent 58%
+);
+transform:translateX(-35%) rotate(8deg);
+animation:shine 4.8s linear infinite;
+z-index:2;
+pointer-events:none;
+mix-blend-mode:screen;
+}
+
+/* 图片 */
+.about img{
+position:relative;
+z-index:3;
+display:block;
+width:100%;
+height:auto;
+border-radius:30px;
+}
+
+/* 下方留白区 */
+.bottom-wrap{
+margin-top:22px;
+padding:0 8px;
+position:relative;
+min-height:92px;
+}
+
+.bottom-line{
+width:min(72vw, 520px);
+height:1px;
+margin:0 auto 16px;
+background:linear-gradient(90deg, transparent, rgba(190,150,255,.95), transparent);
+box-shadow:0 0 12px rgba(190,150,255,.75);
+}
+
+.bottom-note{
+text-align:center;
+color:rgba(255,255,255,.72);
+font-size:14px;
+letter-spacing:2px;
+text-shadow:0 0 12px rgba(180,150,255,.35);
+line-height:1.8;
+}
+
+/* 蝴蝶 */
+.butterfly{
+position:absolute;
+color:rgba(196,150,255,.88);
+font-size:26px;
+filter:drop-shadow(0 0 10px rgba(180,150,255,.55));
+pointer-events:none;
+z-index:4;
+opacity:.85;
+animation:butterFly 8s ease-in-out infinite;
+}
+
+.b1{
+left:8%;
+top:12%;
+animation-delay:0s;
+transform:scale(.9) rotate(-12deg);
+}
+
+.b2{
+right:10%;
+top:18%;
+animation-delay:1.6s;
+transform:scale(1.05) rotate(8deg);
+}
+
+.b3{
+left:18%;
+bottom:2%;
+animation-delay:3.1s;
+transform:scale(.82) rotate(15deg);
+}
+
+/* 小屏优化 */
+@media (max-width: 520px){
+body{
+align-items:flex-start;
+
+padding:
+calc(72px + env(safe-area-inset-top))
+14px
+calc(24px + env(safe-area-inset-bottom))
+14px;
+}
+
+.about{
+border-radius:28px;
+}
+
+.about::before{
+border-radius:24px;
+}
+
+.about img{
+border-radius:24px;
+}
+
+.back{
+width:52px;
+height:52px;
+font-size:26px;
+}
+
+.bottom-wrap{
+min-height:104px;
+}
+
+.bottom-note{
+font-size:13px;
+letter-spacing:1.5px;
+}
+}
+
+/* 动画 */
+@keyframes ledMove{
+0%{ background-position:0% 50%; }
+100%{ background-position:300% 50%; }
+}
+
+@keyframes shine{
+0%{ transform:translateX(-40%) rotate(8deg); opacity:0; }
+15%{ opacity:.85; }
+50%{ opacity:.9; }
+85%{ opacity:.8; }
+100%{ transform:translateX(40%) rotate(8deg); opacity:0; }
+}
+
+@keyframes butterFly{
+0%{
+transform:translateY(0px) translateX(0px) rotate(-8deg) scale(.95);
+opacity:.65;
+}
+25%{
+transform:translateY(-10px) translateX(6px) rotate(6deg) scale(1);
+opacity:.92;
+}
+50%{
+transform:translateY(6px) translateX(-4px) rotate(-4deg) scale(.98);
+opacity:.76;
+}
+75%{
+transform:translateY(-8px) translateX(4px) rotate(10deg) scale(1.02);
+opacity:.9;
+}
+100%{
+transform:translateY(0px) translateX(0px) rotate(-8deg) scale(.95);
+opacity:.65;
+}
+}
+</style>
+</head>
+
+<body>
+
+<div class="back" onclick="goBack()">←</div>
+
+<div class="page">
+
+<div class="butterfly b1">🦋</div>
+<div class="butterfly b2">🦋</div>
+<div class="butterfly b3">🦋</div>
+
+<div class="about">
+<img
+src="https://i.postimg.cc/BvmyCf2S/766377BA-F0E4-4BFE-AB26-928F52546C2E.png"
+alt="关于我"
+onerror="this.src='https://placehold.co/900x1200/111111/ffffff?text=关于我'">
+</div>
+
+<div class="bottom-wrap">
+<div class="bottom-line"></div>
+<div class="bottom-note">
+欢迎来到我的世界<br>
+未来更多还在摸索中…
+</div>
+</div>
+
+</div>
+
+<script>
+function goBack(){
+if(history.length>1){
+history.back();
+}else{
+location.href="index.html";
+}
+}
+</script>
+
+</body>
+</html>

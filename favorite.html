@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+<meta charset="UTF-8">
+
+<meta
+name="viewport"
+content="width=device-width,initial-scale=1,viewport-fit=cover">
+
+<title>我的收藏</title>
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+-webkit-tap-highlight-color:transparent;
+}
+
+html,body{
+width:100%;
+min-height:100%;
+}
+
+body{
+min-height:100dvh;
+font-family:"PingFang SC",sans-serif;
+color:#fff;
+
+background:
+radial-gradient(
+circle at top,
+rgba(255,160,90,.16),
+transparent 35%
+),
+linear-gradient(
+180deg,
+#100b08 0%,
+#1b1008 52%,
+#090706 100%
+);
+
+padding:
+calc(20px + env(safe-area-inset-top))
+16px
+calc(30px + env(safe-area-inset-bottom));
+
+overflow-x:hidden;
+}
+
+/* 返回按钮 */
+.back{
+position:fixed;
+
+top:
+calc(16px + env(safe-area-inset-top));
+
+left:
+calc(16px + env(safe-area-inset-left));
+
+width:52px;
+height:52px;
+
+border-radius:50%;
+
+display:flex;
+align-items:center;
+justify-content:center;
+
+font-size:28px;
+color:white;
+
+background:
+rgba(255,155,75,.16);
+
+border:
+1px solid rgba(255,255,255,.16);
+
+backdrop-filter:
+blur(18px);
+
+-webkit-backdrop-filter:
+blur(18px);
+
+box-shadow:
+0 0 18px rgba(255,150,80,.32);
+
+cursor:pointer;
+z-index:999;
+user-select:none;
+}
+
+.back:active{
+transform:scale(.95);
+}
+
+.shell{
+width:min(100%,850px);
+margin:0 auto;
+padding-top:78px;
+}
+
+.title{
+text-align:center;
+font-size:32px;
+font-weight:700;
+margin-bottom:10px;
+text-shadow:
+0 0 20px rgba(255,180,100,.35);
+}
+
+.sub{
+text-align:center;
+font-size:13px;
+opacity:.68;
+margin-bottom:28px;
+letter-spacing:1px;
+}
+
+.list{
+display:flex;
+flex-direction:column;
+gap:14px;
+}
+
+/* 收藏卡片 */
+.item{
+position:relative;
+
+padding:18px 18px;
+
+border-radius:22px;
+
+background:
+linear-gradient(
+180deg,
+rgba(255,180,95,.14),
+rgba(255,255,255,.045)
+);
+
+border:
+1px solid rgba(255,255,255,.13);
+
+backdrop-filter:
+blur(18px);
+
+-webkit-backdrop-filter:
+blur(18px);
+
+box-shadow:
+0 0 24px rgba(255,145,65,.13),
+inset 0 0 18px rgba(255,255,255,.035);
+
+cursor:pointer;
+overflow:hidden;
+}
+
+.item::before{
+content:"";
+position:absolute;
+inset:0;
+background:
+linear-gradient(
+120deg,
+transparent,
+rgba(255,255,255,.12),
+transparent
+);
+transform:translateX(-120%);
+transition:.45s;
+pointer-events:none;
+}
+
+.item:active{
+transform:scale(.98);
+}
+
+.item:active::before{
+transform:translateX(120%);
+}
+
+.item-title{
+font-size:19px;
+font-weight:600;
+line-height:1.45;
+padding-right:64px;
+}
+
+.item-meta{
+margin-top:8px;
+font-size:12px;
+opacity:.62;
+}
+
+.go{
+position:absolute;
+right:16px;
+top:50%;
+transform:translateY(-50%);
+
+width:42px;
+height:42px;
+
+border-radius:50%;
+
+display:flex;
+align-items:center;
+justify-content:center;
+
+background:
+rgba(255,165,80,.18);
+
+border:
+1px solid rgba(255,255,255,.14);
+
+box-shadow:
+0 0 14px rgba(255,155,70,.25);
+
+font-size:20px;
+}
+
+/* 空状态 */
+.empty{
+display:none;
+
+margin-top:34px;
+padding:38px 22px;
+
+border-radius:26px;
+
+text-align:center;
+
+background:
+linear-gradient(
+180deg,
+rgba(255,255,255,.07),
+rgba(255,255,255,.03)
+);
+
+border:
+1px solid rgba(255,255,255,.12);
+
+backdrop-filter:
+blur(18px);
+
+-webkit-backdrop-filter:
+blur(18px);
+
+box-shadow:
+0 0 24px rgba(255,160,90,.12);
+}
+
+.empty-icon{
+font-size:44px;
+margin-bottom:16px;
+}
+
+.empty-title{
+font-size:22px;
+font-weight:600;
+margin-bottom:10px;
+}
+
+.empty-text{
+font-size:14px;
+opacity:.68;
+line-height:1.8;
+}
+
+/* 底部按钮 */
+.bottom{
+margin-top:26px;
+display:flex;
+gap:12px;
+}
+
+.bottom button{
+flex:1;
+height:48px;
+
+border:none;
+border-radius:16px;
+
+color:white;
+font-size:15px;
+
+background:
+linear-gradient(
+180deg,
+rgba(255,170,85,.9),
+rgba(190,92,32,.9)
+);
+
+box-shadow:
+0 0 18px rgba(255,140,55,.28),
+inset 0 1px 0 rgba(255,255,255,.18);
+
+cursor:pointer;
+}
+
+.bottom button.secondary{
+background:
+linear-gradient(
+180deg,
+rgba(255,255,255,.10),
+rgba(255,255,255,.05)
+);
+
+border:
+1px solid rgba(255,255,255,.10);
+
+box-shadow:none;
+}
+
+.bottom button:active{
+transform:scale(.96);
+}
+
+@media(max-width:520px){
+
+.shell{
+padding-top:76px;
+}
+
+.title{
+font-size:28px;
+}
+
+.item{
+padding:16px;
+border-radius:20px;
+}
+
+.item-title{
+font-size:17px;
+padding-right:54px;
+}
+
+.go{
+width:38px;
+height:38px;
+right:14px;
+}
+
+.bottom{
+flex-direction:column;
+}
+
+}
+</style>
+</head>
+
+<body>
+
+<div
+class="back"
+id="backBtn">
+←
+</div>
+
+<div class="shell">
+
+<div class="title">
+我的收藏
+</div>
+
+<div class="sub">
+这里会显示你在阅读器里收藏过的章节
+</div>
+
+<div
+class="list"
+id="favoriteList">
+</div>
+
+<div
+class="empty"
+id="emptyBox">
+
+<div class="empty-icon">
+🧡
+</div>
+
+<div class="empty-title">
+还没有收藏章节
+</div>
+
+<div class="empty-text">
+去阅读器里点「收藏」，这里就会出现你收藏过的章节。
+</div>
+
+</div>
+
+<div class="bottom">
+
+<button
+class="secondary"
+onclick="location.href='chapter-list.html'">
+章节目录
+</button>
+
+<button
+onclick="clearFavorite()">
+清空收藏
+</button>
+
+</div>
+
+</div>
+
+<script>
+/* 安全读取 */
+function safeGet(key, defaultValue){
+try{
+const value = localStorage.getItem(key);
+if(value === null) return defaultValue;
+return JSON.parse(value);
+}catch{
+return defaultValue;
+}
+}
+
+/* 安全保存 */
+function safeSet(key, data){
+try{
+localStorage.setItem(
+key,
+typeof data === "string" ? data : JSON.stringify(data)
+);
+}catch(e){
+console.log("储存失败");
+}
+}
+
+/* 获取元素 */
+const favoriteList =
+document.getElementById("favoriteList");
+
+const emptyBox =
+document.getElementById("emptyBox");
+
+/* 加载收藏 */
+function loadFavorite(){
+
+let list =
+safeGet("favorite", []);
+
+if(
+!Array.isArray(list)
+){
+list = [];
+}
+
+favoriteList.innerHTML = "";
+
+if(
+list.length === 0
+){
+emptyBox.style.display = "block";
+return;
+}
+
+emptyBox.style.display = "none";
+
+list
+.sort((a,b)=>a.chapter-b.chapter)
+.forEach(item=>{
+
+const chapter =
+Number(item.chapter);
+
+const title =
+item.title || `第${chapter}章`;
+
+const card =
+document.createElement("div");
+
+card.className =
+"item";
+
+card.onclick = ()=>{
+
+localStorage.setItem(
+"chapter",
+chapter
+);
+
+location.href =
+"reader.html";
+
+};
+
+const titleEl =
+document.createElement("div");
+
+titleEl.className =
+"item-title";
+
+titleEl.textContent =
+title;
+
+const meta =
+document.createElement("div");
+
+meta.className =
+"item-meta";
+
+meta.textContent =
+`点击继续阅读 · 第 ${chapter} 章`;
+
+const go =
+document.createElement("div");
+
+go.className =
+"go";
+
+go.textContent =
+"›";
+
+card.appendChild(titleEl);
+card.appendChild(meta);
+card.appendChild(go);
+
+favoriteList.appendChild(card);
+
+});
+
+}
+
+/* 清空收藏 */
+function clearFavorite(){
+
+const list =
+safeGet("favorite", []);
+
+if(
+!Array.isArray(list) ||
+list.length === 0
+){
+alert("现在没有收藏");
+return;
+}
+
+const ok =
+confirm("确定清空所有收藏吗？");
+
+if(!ok) return;
+
+safeSet("favorite", []);
+
+loadFavorite();
+
+alert("收藏已清空");
+
+}
+
+/* 返回 */
+document
+.getElementById("backBtn")
+.onclick = ()=>{
+
+if(
+history.length > 1
+){
+history.back();
+}else{
+location.href =
+"index.html";
+}
+
+};
+
+loadFavorite();
+</script>
+
+</body>
+</html>

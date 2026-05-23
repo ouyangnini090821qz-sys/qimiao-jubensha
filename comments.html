@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+<meta charset="UTF-8">
+
+<meta
+name="viewport"
+content="width=device-width,initial-scale=1,viewport-fit=cover">
+
+<title>读者评论</title>
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+-webkit-tap-highlight-color:transparent;
+}
+
+html,body{
+width:100%;
+min-height:100%;
+}
+
+body{
+min-height:100dvh;
+font-family:"PingFang SC",sans-serif;
+color:#fff;
+
+background:
+radial-gradient(
+circle at top,
+rgba(120,190,255,.18),
+transparent 36%
+),
+linear-gradient(
+180deg,
+#07101a 0%,
+#0b1724 55%,
+#05080d 100%
+);
+
+padding:
+calc(20px + env(safe-area-inset-top))
+16px
+calc(30px + env(safe-area-inset-bottom));
+
+overflow-x:hidden;
+}
+
+/* 返回按钮 */
+.back{
+position:fixed;
+
+top:
+calc(16px + env(safe-area-inset-top));
+
+left:
+calc(16px + env(safe-area-inset-left));
+
+width:52px;
+height:52px;
+
+border-radius:50%;
+
+display:flex;
+align-items:center;
+justify-content:center;
+
+font-size:28px;
+color:white;
+
+background:
+rgba(120,190,255,.16);
+
+border:
+1px solid rgba(255,255,255,.16);
+
+backdrop-filter:
+blur(18px);
+
+-webkit-backdrop-filter:
+blur(18px);
+
+box-shadow:
+0 0 18px rgba(120,190,255,.32);
+
+cursor:pointer;
+z-index:999;
+user-select:none;
+}
+
+.back:active{
+transform:scale(.95);
+}
+
+.shell{
+width:min(100%,850px);
+margin:0 auto;
+padding-top:78px;
+}
+
+.title{
+text-align:center;
+font-size:32px;
+font-weight:700;
+margin-bottom:10px;
+text-shadow:
+0 0 20px rgba(120,190,255,.38);
+}
+
+.sub{
+text-align:center;
+font-size:13px;
+opacity:.68;
+margin-bottom:28px;
+letter-spacing:1px;
+}
+
+.list{
+display:flex;
+flex-direction:column;
+gap:14px;
+}
+
+/* 评论卡片 */
+.item{
+position:relative;
+
+padding:18px;
+
+border-radius:22px;
+
+background:
+linear-gradient(
+180deg,
+rgba(145,200,255,.14),
+rgba(255,255,255,.045)
+);
+
+border:
+1px solid rgba(255,255,255,.13);
+
+backdrop-filter:
+blur(18px);
+
+-webkit-backdrop-filter:
+blur(18px);
+
+box-shadow:
+0 0 24px rgba(120,190,255,.13),
+inset 0 0 18px rgba(255,255,255,.035);
+
+overflow:hidden;
+}
+
+.item::before{
+content:"";
+position:absolute;
+inset:0;
+background:
+linear-gradient(
+120deg,
+transparent,
+rgba(255,255,255,.11),
+transparent
+);
+transform:translateX(-120%);
+transition:.45s;
+pointer-events:none;
+}
+
+.item:active{
+transform:scale(.98);
+}
+
+.item:active::before{
+transform:translateX(120%);
+}
+
+.item-top{
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:12px;
+margin-bottom:12px;
+}
+
+.chapter{
+font-size:15px;
+font-weight:600;
+color:rgba(190,225,255,.95);
+}
+
+.time{
+font-size:11px;
+opacity:.52;
+white-space:nowrap;
+}
+
+.text{
+font-size:16px;
+line-height:1.85;
+opacity:.92;
+word-break:break-word;
+white-space:pre-wrap;
+}
+
+.item-bottom{
+margin-top:14px;
+display:flex;
+justify-content:flex-end;
+gap:10px;
+}
+
+.small-btn{
+height:34px;
+padding:0 14px;
+
+border:none;
+border-radius:12px;
+
+font-size:13px;
+color:white;
+
+background:
+rgba(255,255,255,.08);
+
+border:
+1px solid rgba(255,255,255,.10);
+
+cursor:pointer;
+}
+
+.small-btn:active{
+transform:scale(.95);
+}
+
+/* 空状态 */
+.empty{
+display:none;
+
+margin-top:34px;
+padding:38px 22px;
+
+border-radius:26px;
+
+text-align:center;
+
+background:
+linear-gradient(
+180deg,
+rgba(255,255,255,.07),
+rgba(255,255,255,.03)
+);
+
+border:
+1px solid rgba(255,255,255,.12);
+
+backdrop-filter:
+blur(18px);
+
+-webkit-backdrop-filter:
+blur(18px);
+
+box-shadow:
+0 0 24px rgba(120,190,255,.12);
+}
+
+.empty-icon{
+font-size:44px;
+margin-bottom:16px;
+}
+
+.empty-title{
+font-size:22px;
+font-weight:600;
+margin-bottom:10px;
+}
+
+.empty-text{
+font-size:14px;
+opacity:.68;
+line-height:1.8;
+}
+
+/* 底部按钮 */
+.bottom{
+margin-top:26px;
+display:flex;
+gap:12px;
+}
+
+.bottom button{
+flex:1;
+height:48px;
+
+border:none;
+border-radius:16px;
+
+color:white;
+font-size:15px;
+
+background:
+linear-gradient(
+180deg,
+rgba(120,190,255,.9),
+rgba(60,105,190,.9)
+);
+
+box-shadow:
+0 0 18px rgba(120,190,255,.28),
+inset 0 1px 0 rgba(255,255,255,.18);
+
+cursor:pointer;
+}
+
+.bottom button.secondary{
+background:
+linear-gradient(
+180deg,
+rgba(255,255,255,.10),
+rgba(255,255,255,.05)
+);
+
+border:
+1px solid rgba(255,255,255,.10);
+
+box-shadow:none;
+}
+
+.bottom button:active{
+transform:scale(.96);
+}
+
+@media(max-width:520px){
+
+.shell{
+padding-top:76px;
+}
+
+.title{
+font-size:28px;
+}
+
+.item{
+padding:16px;
+border-radius:20px;
+}
+
+.item-top{
+align-items:flex-start;
+flex-direction:column;
+gap:4px;
+}
+
+.text{
+font-size:15px;
+line-height:1.8;
+}
+
+.bottom{
+flex-direction:column;
+}
+
+}
+</style>
+</head>
+
+<body>
+
+<div
+class="back"
+id="backBtn">
+←
+</div>
+
+<div class="shell">
+
+<div class="title">
+读者评论
+</div>
+
+<div class="sub">
+这里会显示你在阅读器里写过的评论
+</div>
+
+<div
+class="list"
+id="commentList">
+</div>
+
+<div
+class="empty"
+id="emptyBox">
+
+<div class="empty-icon">
+💬
+</div>
+
+<div class="empty-title">
+还没有评论
+</div>
+
+<div class="empty-text">
+去阅读器里点「评论」，写下你的想法，这里就会出现记录。
+</div>
+
+</div>
+
+<div class="bottom">
+
+<button
+class="secondary"
+onclick="location.href='chapter-list.html'">
+章节目录
+</button>
+
+<button
+onclick="clearComments()">
+清空评论
+</button>
+
+</div>
+
+</div>
+
+<script>
+/* 安全读取 */
+function safeGet(key, defaultValue){
+try{
+const value = localStorage.getItem(key);
+if(value === null) return defaultValue;
+return JSON.parse(value);
+}catch{
+return defaultValue;
+}
+}
+
+/* 安全保存 */
+function safeSet(key, data){
+try{
+localStorage.setItem(
+key,
+typeof data === "string" ? data : JSON.stringify(data)
+);
+}catch(e){
+console.log("储存失败");
+}
+}
+
+/* 章节标题 */
+const chapterNames = {
+1:"🌞 第一章 卫生间的记忆",
+2:"🏫 第二章 圣约校院",
+3:"💃 第三章 舞蹈室",
+4:"🌕 第四章 墙壁上的字",
+5:"🌙 第五章 106储藏室",
+6:"☕️ 第六章 好梦咖啡馆",
+7:"🖼️ 第七章 墙壁上的画",
+8:"📖 第八章 穿越？",
+9:"👥 第九章 抽屉里的照片",
+10:"✨ 第十章 老乞丐",
+11:"🚪 第十一章 地下室"
+};
+
+const commentList =
+document.getElementById("commentList");
+
+const emptyBox =
+document.getElementById("emptyBox");
+
+/* 时间格式 */
+function formatTime(time){
+
+if(!time){
+return "未知时间";
+}
+
+const date =
+new Date(time);
+
+if(
+isNaN(date.getTime())
+){
+return "未知时间";
+}
+
+const y =
+date.getFullYear();
+
+const m =
+String(date.getMonth()+1).padStart(2,"0");
+
+const d =
+String(date.getDate()).padStart(2,"0");
+
+const h =
+String(date.getHours()).padStart(2,"0");
+
+const min =
+String(date.getMinutes()).padStart(2,"0");
+
+return `${y}-${m}-${d} ${h}:${min}`;
+
+}
+
+/* 加载评论 */
+function loadComments(){
+
+let list =
+safeGet("comments", []);
+
+if(
+!Array.isArray(list)
+){
+list = [];
+}
+
+commentList.innerHTML = "";
+
+if(
+list.length === 0
+){
+emptyBox.style.display = "block";
+return;
+}
+
+emptyBox.style.display = "none";
+
+/* 新评论在上面 */
+list
+.slice()
+.sort((a,b)=>(b.time || 0) - (a.time || 0))
+.forEach((item)=>{
+
+const chapter =
+Number(item.chapter) || 1;
+
+const text =
+item.text || "";
+
+const card =
+document.createElement("div");
+
+card.className =
+"item";
+
+const top =
+document.createElement("div");
+
+top.className =
+"item-top";
+
+const chapterEl =
+document.createElement("div");
+
+chapterEl.className =
+"chapter";
+
+chapterEl.textContent =
+chapterNames[chapter] || `第${chapter}章`;
+
+const timeEl =
+document.createElement("div");
+
+timeEl.className =
+"time";
+
+timeEl.textContent =
+formatTime(item.time);
+
+top.appendChild(chapterEl);
+top.appendChild(timeEl);
+
+const textEl =
+document.createElement("div");
+
+textEl.className =
+"text";
+
+textEl.textContent =
+text;
+
+const bottom =
+document.createElement("div");
+
+bottom.className =
+"item-bottom";
+
+const readBtn =
+document.createElement("button");
+
+readBtn.className =
+"small-btn";
+
+readBtn.textContent =
+"去阅读";
+
+readBtn.onclick = ()=>{
+
+localStorage.setItem(
+"chapter",
+chapter
+);
+
+location.href =
+"reader.html";
+
+};
+
+bottom.appendChild(readBtn);
+
+card.appendChild(top);
+card.appendChild(textEl);
+card.appendChild(bottom);
+
+commentList.appendChild(card);
+
+});
+
+}
+
+/* 清空评论 */
+function clearComments(){
+
+const list =
+safeGet("comments", []);
+
+if(
+!Array.isArray(list) ||
+list.length === 0
+){
+alert("现在没有评论");
+return;
+}
+
+const ok =
+confirm("确定清空所有评论吗？");
+
+if(!ok) return;
+
+safeSet("comments", []);
+
+loadComments();
+
+alert("评论已清空");
+
+}
+
+/* 返回 */
+document
+.getElementById("backBtn")
+.onclick = ()=>{
+
+if(
+history.length > 1
+){
+history.back();
+}else{
+location.href =
+"index.html";
+}
+
+};
+
+loadComments();
+</script>
+
+</body>
+</html>

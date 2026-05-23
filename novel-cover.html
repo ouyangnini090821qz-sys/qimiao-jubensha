@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+name="viewport"
+content="width=device-width,initial-scale=1,viewport-fit=cover">
+
+<title>奇妙剧本杀</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+-webkit-tap-highlight-color:transparent;
+}
+
+body{
+font-family:"PingFang SC",sans-serif;
+background:#111;
+color:white;
+min-height:100dvh;
+
+padding:
+calc(25px + env(safe-area-inset-top))
+25px
+calc(25px + env(safe-area-inset-bottom));
+
+overflow-x:hidden;
+overflow-y:auto;
+
+user-select:none;
+}
+
+/* 顶部 */
+
+.top{
+display:flex;
+align-items:center;
+margin-bottom:30px;
+}
+
+/* 返回按钮 */
+
+.back{
+position:fixed;
+
+top:calc(18px + env(safe-area-inset-top));
+left:calc(18px + env(safe-area-inset-left));
+
+width:52px;
+height:52px;
+
+border-radius:50%;
+
+display:flex;
+align-items:center;
+justify-content:center;
+
+font-size:30px;
+color:white;
+
+cursor:pointer;
+opacity:.9;
+user-select:none;
+
+background:
+rgba(150,100,255,.14);
+
+border:
+1px solid rgba(255,255,255,.16);
+
+backdrop-filter:blur(18px);
+-webkit-backdrop-filter:blur(18px);
+
+box-shadow:
+0 0 18px rgba(180,150,255,.28);
+
+z-index:999;
+}
+
+.back:active{
+transform:scale(.95);
+}
+
+/* 主内容 */
+
+.wrap{
+display:flex;
+flex-direction:column;
+align-items:center;
+}
+
+.cover{
+width:min(90vw,380px);
+border-radius:25px;
+overflow:hidden;
+
+box-shadow:
+0 0 40px rgba(180,150,255,0.3);
+}
+
+.cover img{
+width:100%;
+display:block;
+}
+
+.title{
+margin-top:30px;
+font-size:35px;
+font-weight:500;
+}
+
+.author{
+margin-top:10px;
+opacity:.7;
+font-size:15px;
+}
+
+.tag{
+margin-top:20px;
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+justify-content:center;
+}
+
+.tag span{
+padding:8px 15px;
+border-radius:20px;
+background:rgba(140,100,180,0.2);
+font-size:13px;
+}
+
+/* 开始阅读 */
+
+.start{
+margin-top:40px;
+
+width:min(90vw,350px);
+height:65px;
+
+border:none;
+border-radius:25px;
+
+font-size:20px;
+color:white;
+
+cursor:pointer;
+
+background:
+linear-gradient(
+45deg,
+#9060d0,
+#7b4ed6
+);
+
+box-shadow:
+0 0 30px rgba(180,150,255,.3);
+}
+
+.start:active{
+transform:scale(.96);
+}
+
+/* 继续阅读 */
+
+#continueRead{
+margin-top:20px;
+
+padding:
+14px 28px;
+
+border-radius:20px;
+
+background:
+rgba(255,255,255,.08);
+
+cursor:pointer;
+
+font-size:16px;
+opacity:.9;
+
+transition:.3s;
+}
+
+#continueRead:active{
+transform:scale(.95);
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="top">
+
+<div
+class="back"
+id="backBtn">
+←
+</div>
+
+</div>
+
+<div class="wrap">
+
+<div class="cover">
+
+<img
+src="https://i.postimg.cc/hPQQg0yd/IMG-0467.jpg"
+onerror="this.src='https://placehold.co/600x900/111111/ffffff?text=奇妙剧本杀'">
+
+</div>
+
+<div class="title">
+奇妙剧本杀
+</div>
+
+<div class="author">
+作者：雾里茄影
+</div>
+
+<div class="tag">
+
+<span>无限流</span>
+<span>悬疑</span>
+<span>惊悚</span>
+<span>奇幻</span>
+
+</div>
+
+<button
+class="start"
+onclick="location.href='chapter-list.html'">
+开始阅读
+</button>
+
+<div id="continueRead">
+📖继续阅读
+</div>
+
+</div>
+
+<script>
+
+/* 安全读取 */
+
+function safeGet(key,defaultValue){
+
+try{
+
+const value =
+localStorage.getItem(key);
+
+return value === null
+? defaultValue
+: value;
+
+}
+catch{
+
+return defaultValue;
+
+}
+
+}
+
+/* 当前阅读章节 */
+
+let lastChapter =
+parseInt(
+safeGet("chapter",1),
+10
+);
+
+if(
+isNaN(lastChapter)
+||
+lastChapter < 1
+){
+
+lastChapter = 1;
+
+}
+
+/* 继续按钮 */
+
+const continueBtn =
+document.getElementById("continueRead");
+
+/* 首次阅读 */
+
+if(lastChapter === 1){
+
+continueBtn.innerText =
+"📖开始阅读";
+
+}
+else{
+
+continueBtn.innerText =
+`📖继续阅读 第${lastChapter}章`;
+
+}
+
+/* 点击继续 */
+
+continueBtn.onclick = ()=>{
+
+localStorage.setItem(
+"chapter",
+lastChapter
+);
+
+location.href =
+"reader.html";
+
+};
+
+/* 返回按钮 */
+
+document
+.getElementById("backBtn")
+.onclick = ()=>{
+
+if(history.length > 1){
+
+history.back();
+
+}
+else{
+
+location.href =
+"index.html";
+
+}
+
+};
+
+</script>
+
+</body>
+</html>
